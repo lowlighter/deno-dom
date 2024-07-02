@@ -42,7 +42,7 @@ export class CustomElementRegistry {
     }
   >();
 
-  #valid(name: string) {
+  #validName(name: string) {
     if (
       /^annotation-xml|color-profile|missing-glyph|(?:font-face(?:-(?:src|uri|format|name))?)$/
         .test(name)
@@ -60,7 +60,7 @@ export class CustomElementRegistry {
     if (!constructor?.prototype) {
       throw new TypeError("Argument 2 must be a constructor");
     }
-    if (!this.#valid(name)) {
+    if (!this.#validName(name)) {
       throw new DOMException(
         `'${name}' is not a valid custom element name`,
         "SyntaxError",
@@ -82,7 +82,7 @@ export class CustomElementRegistry {
       );
     }
     if (options?.extends) {
-      if (this.#valid(options.extends)) {
+      if (this.#validName(options.extends)) {
         throw new DOMException(
           `'${name}' cannot extend a custom element`,
           "NotSupportedError",
@@ -90,7 +90,6 @@ export class CustomElementRegistry {
       }
     }
     // TODO: implement disabledFeatures and formAssociated
-
     this.#registry.set(name, constructor);
     this.upgrade(this.#window.document);
     this.whenDefined(name);
@@ -108,7 +107,7 @@ export class CustomElementRegistry {
   }
 
   whenDefined(name: string) {
-    if (!this.#valid(name)) {
+    if (!this.#validName(name)) {
       throw new DOMException(
         `'${name}' is not a valid custom element name`,
         "SyntaxError",
