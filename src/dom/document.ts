@@ -6,6 +6,7 @@ import { DocumentFragment } from "./document-fragment.ts";
 import { HTMLTemplateElement } from "./elements/html-template-element.ts";
 import { getSelectorEngine, SelectorApi } from "./selectors/selectors.ts";
 import { getElementsByClassName } from "./utils.ts";
+import type { Window } from "./window.ts";
 import UtilTypes from "./utils-types.ts";
 
 export class DOMImplementation {
@@ -123,6 +124,7 @@ export class Document extends Node {
   #documentURI = "about:blank"; // TODO
   #title = "";
   #nwapi: SelectorApi | null = null;
+  #window: Window | null = null;
 
   constructor() {
     super(
@@ -392,6 +394,14 @@ export class Document extends Node {
 
   hasFocus(): boolean {
     return true;
+  }
+
+  _setDefaultView(window: Window) {
+    this.#window = window;
+  }
+
+  get defaultView(): Window | null {
+    return this.#window;
   }
 }
 

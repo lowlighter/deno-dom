@@ -48,6 +48,8 @@ export class HTMLTemplateElement extends Element {
     if (this.__contentIsSet) {
       this.content._setOwnerDocument(document);
     }
+
+    return false;
   }
 
   override _shallowClone(): HTMLTemplateElement {

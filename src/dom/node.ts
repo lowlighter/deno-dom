@@ -157,7 +157,9 @@ export class Node extends EventTarget {
       for (const child of this.childNodes) {
         child._setOwnerDocument(document);
       }
+      return true;
     }
+    return false;
   }
 
   contains(child: Node): boolean {
